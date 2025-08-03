@@ -18,7 +18,9 @@ import Notification from "./components/Notification/Notification.jsx";
       return saved ? JSON.parse(saved) : { ...initialState };
   });
 
-  const totalFeedback = values.good + values.neutral + values.bad;
+    const totalFeedback = values.good + values.neutral + values.bad;
+
+   const positiveFeedbackPercentage = totalFeedback ? Math.round((values.good / totalFeedback) * 100) : 0;
 
   const updateFeedback = (feedbackType) => {
     setValues((prevValues) => ({
@@ -27,7 +29,7 @@ import Notification from "./components/Notification/Notification.jsx";
     }));
   };
 
-const resetFeedback = () => {
+ const resetFeedback = () => {
     setValues({ ...initialState });
   };
   
@@ -43,11 +45,13 @@ const resetFeedback = () => {
         onLeaveFeedback={updateFeedback}
         reset={resetFeedback}
         total={totalFeedback} />
+      
       {totalFeedback === 0 ? <Notification /> : <Feedback
         good={values.good}
         neutral={values.neutral}
         bad={values.bad}
-        total={totalFeedback} />}
+        total={totalFeedback}
+        positivePercentage={ positiveFeedbackPercentage } />}
     </>
   )
 }
